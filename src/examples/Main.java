@@ -1,5 +1,7 @@
 package examples;
 
+import entities.constructor.CallbackExpressionConstructor;
+import entities.constructor.ExpressionConstructor;
 import entities.elements.Column;
 import entities.elements.Value;
 import entities.expressions.AtomicExpression;
@@ -11,6 +13,7 @@ public class Main {
 
     public static void main(String[] args) {
 
+        ExpressionConstructor constructor = new ExpressionConstructor();
 
         AtomicExpression e1 = new AtomicExpression(new Column("nome", "tabela"), new Value("marcos"), "==");
         AtomicExpression e2 = new AtomicExpression(new Column("idade", "tabela"), new Value(5), "!=");
@@ -20,12 +23,36 @@ public class Main {
         AtomicExpression e6 = new AtomicExpression(new Column("nome", "tabela"), new Value(null), "is");
         AtomicExpression e7 = new AtomicExpression(new Column("nome", "tabela"), new Value("marcos"), "==");
 
+
+        constructor.and(new CallbackExpressionConstructor() {
+            @Override
+            public void handle(ExpressionConstructor constructor) {
+                constructor.and(e4);
+                constructor.and(e5);
+            }
+        });
+        constructor.and(new CallbackExpressionConstructor() {
+            @Override
+            public void handle(ExpressionConstructor constructor) {
+                constructor.or(new CallbackExpressionConstructor() {
+                    @Override
+                    public void handle(ExpressionConstructor constructor) {
+                        constructor.or(e1);
+                        constructor.or(e2);
+                        constructor.or(e3);
+                    }
+                });
+                constructor.or(e6);
+            }
+        });
+
+
         LogicalExpression or1 = new LogicalExpression(LogicalOperator.OR, e1, e2, e3);
         LogicalExpression and1 = new LogicalExpression(LogicalOperator.AND, e4, e5);
         LogicalExpression or2 = new LogicalExpression(LogicalOperator.OR, or1, e6);
         BooleanExpression booleanExpression = new LogicalExpression(LogicalOperator.AND, or2, and1);
 
-        System.out.println(booleanExpression);
+        System.out.println(constructor.build());
 
     }
 
