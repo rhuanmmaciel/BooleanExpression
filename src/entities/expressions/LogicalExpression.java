@@ -9,22 +9,38 @@ public class LogicalExpression extends BooleanExpression implements Iterable<Boo
     private final List<BooleanExpression> expressions = new ArrayList<>();
     private final LogicalOperator logicalOperator;
 
-    public LogicalExpression(LogicalOperator logicalOperator, BooleanExpression... expressions){
-
-        super(false);
-
+    public LogicalExpression(LogicalOperator logicalOperator,boolean not, List<BooleanExpression> list){
+        super(not);
         this.logicalOperator = logicalOperator;
-        this.expressions.addAll(List.of(expressions));
 
+        for (BooleanExpression expression:
+             list) {
+            if(expression instanceof LogicalExpression){
+                LogicalExpression logicalExpression = (LogicalExpression) expression;
+                if(logicalExpression.logicalOperator==logicalOperator){
+                    for (BooleanExpression e2:
+                         logicalExpression.expressions) {
+                        this.expressions.add(e2);
+                    }
+                    continue;
+                }
+            }
+
+            this.expressions.add(expression);
+        }
+
+
+
+    }
+    public LogicalExpression(LogicalOperator logicalOperator, List<BooleanExpression> list){
+        this(logicalOperator,false,list);
+    }
+    public LogicalExpression(LogicalOperator logicalOperator, BooleanExpression... expressions){
+        this(logicalOperator,false,List.of(expressions));
     }
 
     public LogicalExpression(LogicalOperator logicalOperator, boolean not, BooleanExpression... expressions){
-
-        super(not);
-
-        this.logicalOperator = logicalOperator;
-        this.expressions.addAll(List.of(expressions));
-
+        this(logicalOperator,not,List.of(expressions));
     }
 
     public LogicalOperator getLogicalOperator(){
