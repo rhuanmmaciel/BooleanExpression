@@ -18,10 +18,7 @@ public class LogicalExpression extends BooleanExpression implements Iterable<Boo
             if(expression instanceof LogicalExpression){
                 LogicalExpression logicalExpression = (LogicalExpression) expression;
                 if(logicalExpression.logicalOperator==logicalOperator){
-                    for (BooleanExpression e2:
-                         logicalExpression.expressions) {
-                        this.expressions.add(e2);
-                    }
+                    this.expressions.addAll(logicalExpression.expressions);
                     continue;
                 }
             }
