@@ -20,8 +20,8 @@ public class Main {
         AtomicExpression e3 = new AtomicExpression(new Column("altura", "tabela"), new Value(178), ">");
         AtomicExpression e4 = new AtomicExpression(new Value("maria"), new Value("marcos"), "==");
         AtomicExpression e5 = new AtomicExpression(new Column("nome", "tabela"), new Column("nome", "tabela2"), "==");
-        AtomicExpression e6 = new AtomicExpression(new Column("nome", "tabela"), new Value(null), "is");
-        AtomicExpression e7 = new AtomicExpression(new Column("nome", "tabela"), new Value("marcos"), "==");
+        AtomicExpression e6 = new AtomicExpression(new Column("nome", "tabela"), new Value(null), "is", true);
+        AtomicExpression e7 = new AtomicExpression(new Column("nome", "tabela"), new Value("marcos"), "==", true);
 
 
         constructor.and(new CallbackExpressionConstructor() {

@@ -92,6 +92,7 @@ public class LogicalExpression extends BooleanExpression implements Iterable<Boo
 
         StringBuilder txt = new StringBuilder();
 
+        if(isNot()) txt.append("!");
         txt.append("(");
 
         Iterator<BooleanExpression> iterator = expressions.iterator();

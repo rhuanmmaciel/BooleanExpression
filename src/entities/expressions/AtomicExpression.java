@@ -59,7 +59,15 @@ public class AtomicExpression extends BooleanExpression{
 
     @Override
     public String toString(){
-        return firstElement + " " + relationalOperator + " " + secondElement;
+
+        String txt = firstElement + " " + relationalOperator + " " + secondElement;
+
+        if(isNot()) txt = "!(" + txt + ")";
+
+        return txt;
+
     }
+
+
 
 }
