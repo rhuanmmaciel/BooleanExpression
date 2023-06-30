@@ -45,13 +45,13 @@ public class ExpressionConstructor {
             if(current==null){
                 current = e.getKey();
             }else if(current!=e.getKey()){
-                if(e.getKey()=="or"){
+                if(e.getKey()=="and"){
                     BooleanExpression last = list.remove(list.size()-1);
                     allAnd.addAll(list);
                     list = new ArrayList<>();
                     list.add(last);
                 }else{
-                    allAnd.add(new LogicalExpression(LogicalOperator.OR,list));
+                    allAnd.add(new LogicalExpression(LogicalOperator.AND,list));
                     list = new ArrayList<>();
                 }
                 current = e.getKey();
