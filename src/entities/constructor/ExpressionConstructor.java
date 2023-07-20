@@ -6,10 +6,11 @@ import enums.LogicalOperator;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Objects;
 
 public class ExpressionConstructor {
 
-    private ArrayList<Map.Entry<String,BooleanExpression>> queue = new ArrayList<>();
+    private final ArrayList<Map.Entry<String,BooleanExpression>> queue = new ArrayList<>();
 
     public ExpressionConstructor(){
     }
@@ -44,8 +45,8 @@ public class ExpressionConstructor {
              queue) {
             if(current==null){
                 current = e.getKey();
-            }else if(current!=e.getKey()){
-                if(e.getKey()=="and"){
+            }else if(!current.equals(e.getKey())){
+                if(Objects.equals(e.getKey(), "and")){
                     BooleanExpression last = list.remove(list.size()-1);
                     allAnd.addAll(list);
                     list = new ArrayList<>();
@@ -56,11 +57,9 @@ public class ExpressionConstructor {
                 }
                 current = e.getKey();
             }
-            if(current==e.getKey()){
-                list.add(e.getValue());
-            }
+            list.add(e.getValue());
         }
-        if(current!=null && current!="and")
+        if(current!=null && !current.equals("and"))
             allAnd.add(new LogicalExpression(LogicalOperator.OR,list));
         else
             allAnd.addAll(list);

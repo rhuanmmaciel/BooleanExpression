@@ -8,6 +8,9 @@ import entities.expressions.AtomicExpression;
 import entities.expressions.BooleanExpression;
 import entities.expressions.LogicalExpression;
 import enums.LogicalOperator;
+import enums.RelationalOperator;
+
+import static enums.RelationalOperator.*;
 
 public class Main {
 
@@ -15,13 +18,13 @@ public class Main {
 
         ExpressionConstructor constructor = new ExpressionConstructor();
 
-        AtomicExpression e1 = new AtomicExpression(new Column("nome", "tabela"), new Value("marcos"), "==");
-        AtomicExpression e2 = new AtomicExpression(new Column("idade", "tabela"), new Value(5), "!=");
-        AtomicExpression e3 = new AtomicExpression(new Column("altura", "tabela"), new Value(178), ">");
-        AtomicExpression e4 = new AtomicExpression(new Value("maria"), new Value("marcos"), "==");
-        AtomicExpression e5 = new AtomicExpression(new Column("nome", "tabela"), new Column("nome", "tabela2"), "==");
-        AtomicExpression e6 = new AtomicExpression(new Column("nome", "tabela"), new Value(null), "is", true);
-        AtomicExpression e7 = new AtomicExpression(new Column("nome", "tabela"), new Value("marcos"), "==", true);
+        AtomicExpression e1 = new AtomicExpression(new Column("nome", "tabela"), new Value("marcos"), EQUAL);
+        AtomicExpression e2 = new AtomicExpression(new Column("idade", "tabela"), new Value(5), NOT_EQUAL);
+        AtomicExpression e3 = new AtomicExpression(new Column("altura", "tabela"), new Value(178), GREATER_THAN);
+        AtomicExpression e4 = new AtomicExpression(new Value("maria"), new Value("marcos"), EQUAL);
+        AtomicExpression e5 = new AtomicExpression(new Column("nome", "tabela"), new Column("nome", "tabela2"), EQUAL);
+        AtomicExpression e6 = new AtomicExpression(new Column("nome", "tabela"), new Value(null), IS, true);
+        AtomicExpression e7 = new AtomicExpression(new Column("nome", "tabela"), new Value("marcos"), EQUAL, true);
 
 
         constructor.and(new CallbackExpressionConstructor() {
@@ -52,8 +55,9 @@ public class Main {
         LogicalExpression or2 = new LogicalExpression(LogicalOperator.OR, or1, e6);
         BooleanExpression booleanExpression = new LogicalExpression(LogicalOperator.AND, or2, and1);
 
-        System.out.println(constructor.build());
+        System.out.println(booleanExpression.getMandatoryVariables());
 
+//            Recognizer.recognize(" ((di > u) AND teste > 'adada' OR (a > 3)) AND 'a' > 'b' AND source1.coluna2 == source2.coluna1");
     }
 
 }
