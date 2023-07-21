@@ -43,6 +43,22 @@ public class AtomicExpression extends BooleanExpression{
         return isFirstElementAColumn() || isSecondElementAColumn();
     }
 
+    public List<Column> getAllColumns(){
+
+        if(!hasColumn()) return List.of();
+
+        List<Column> allColumns = new ArrayList<>();
+
+        if(isFirstElementAColumn())
+            allColumns.add((Column) firstElement);
+
+        if(isSecondElementAColumn())
+            allColumns.add((Column) secondElement);
+
+        return allColumns;
+
+    }
+
     public List<Column> getMandatoryVariables() {
 
         if(!hasColumn()) return List.of();
